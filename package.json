@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "start": "NODE_ENV=production MONGO_USER=ramani MONGO_PASSWORD=ragulramani MONGO_DEFAULT_DATABASE=voteblocks  nodemon app.js"
-    },
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -18,6 +18,7 @@
     "fs-extra": "^9.1.0",
     "ganache-cli": "^6.12.2",
     "mocha": "^8.3.2",
+    "mongoose": "^5.12.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
     "pdfkit": "^0.11.0",

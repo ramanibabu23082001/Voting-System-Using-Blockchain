@@ -7,11 +7,11 @@ const ejsLint=require('ejs-lint');
 const session=require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session); 
 const voterroute=require("./routes/voter");
-const flash = require('connect-flash');
-const multer = require('multer');
-const helmet= require('helmet');
-const compression= require('compression');
-const morgan=require('morgan');
+// const flash = require('connect-flash');
+// const multer = require('multer');
+// const helmet= require('helmet');
+// const compression= require('compression');
+// const morgan=require('morgan');
 const app = express();
 const MONGODB_URI =
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-1azzz.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;//change by '' replce  `` dep
@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // {
 // res.render('home');
 // });
-app.app(voterroute);
+app.use(voterroute);
 mongoose
   .connect(MONGODB_URI)
   .then(result => {
