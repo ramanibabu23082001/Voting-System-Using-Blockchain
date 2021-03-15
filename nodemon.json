@@ -1,8 +1,0 @@
-{
-    "env":
-     {
-         "MONGO_USER": "ramani",
-         "MONGO_PASSWORD":"ragulramani",
-         "MONGO_DEFAULT_DATABASE": "voteblocks" 
-     }
-}
