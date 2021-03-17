@@ -1,8 +1,9 @@
 const assert = require('assert');
 const ganache = require('ganache-cli');
 const Web3 = require('web3');
+const { default: instance } = require('../ethereum/authenticationinstance');
 const web3 = new Web3(ganache.provider());
-const compiledFactory = require('../ethereum/build/Authentication.json');
+const compiledAuth= require('../ethereum/build/Authentication.json');
 let accounts;
 let factory;
 let campaignAddress;
@@ -11,8 +12,8 @@ let campaign;
 beforeEach(async () => {
   accounts = await web3.eth.getAccounts();
 
-  factory = await new web3.eth.Contract(JSON.parse(compiledFactory.interface))
-    .deploy({ data: compiledFactory.bytecode })
+  authinstance = await new web3.eth.Contract(JSON.parse(compiledAuth.interface))
+    .deploy({ data: compiledAuth.bytecode })
     .send({ from: accounts[0], gas: '1000000' });
 // const array =await factory.methods.getuser().call();
  //console.log(array); 
@@ -35,11 +36,11 @@ describe('Campaigns', () => {
 //   });
 
   it('marks caller as the campaign manager', async () => {
-    const signup  = await factory.methods.signup("ragul").send({
+    const signup  = await authinstance.methods.signup("ragul").send({
       from:accounts[0]
     });
      
-  const login  = await factory.methods.login("ukkl").call();
+  const login  = await authinstance.methods.login("ukkl").call();
    // const manager = await factory.methods.getuser().call();
    console.log(login);
      assert(login);

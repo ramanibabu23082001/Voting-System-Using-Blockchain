@@ -1,97 +1,132 @@
-import { useState, useRef } from 'react';//ref is state for storing input variable
+import { useState, useRef, Component } from 'react';//ref is state for storing input variable
 import { signIn } from 'next-auth/client';
-import { useRouter } from 'next/router';
-
+//import { Router } from 'next/router';
 import classes from './auth-form.module.css';
+import authinstance from '../../ethereum/authenticationinstance';
+import web3 from "../../ethereum/web3";
+//import { useHistory } from "react-router-dom";
+import {Router} from "../../routes";
 //give request to api (like node js)
-async function createUser(email, password) {
-  const response = await fetch('/api/auth/signup', {
-    method: 'POST',
-    body: JSON.stringify({ email, password }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+//its for mongodb database storation
+// async function createUser(email, password) {
+//   // const response = await fetch('/api/auth/signup', {
+//   //   method: 'POST',
+//   //   body: JSON.stringify({ email, password }),
+//   //   headers: {
+//   //     'Content-Type': 'application/json',
+//   //   },
+//   // });
 
-  const data = await response.json();
+//   const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.message || 'Something went wrong!');
+//   if (!response.ok) {
+//     throw new Error(data.message || 'Something went wrong!');
+//   }
+
+//   return data;
+// }
+
+class AuthForm extends  Component
+{
+ 
+//  const emailInputRef = useRef();//store email
+ // const addressInputRef = useRef();//store password
+
+  //const [isLogin, setIsLogin] = useState(true);//use state for declare state variable
+ // const router = useRouter();
+ state = {
+  isLogin:true,
+  email:'',
+  address:''
+};
+
+switchAuthModeHandler  = event => {
+  
+  this.setState(prevState =>//prevState used to get the prevstate od the variable
+    ({isLogin:!prevState.isLogin}));
   }
 
-  return data;
-}
-
-function AuthForm() {
-  const emailInputRef = useRef();//store email
-  const passwordInputRef = useRef();//store password
-
-  const [isLogin, setIsLogin] = useState(true);
-  const router = useRouter();
-
-  function switchAuthModeHandler() {
-    setIsLogin((prevState) => !prevState);
-  }
-
-  async function submitHandler(event) {
+   submitHandler = async event  =>{
+//    let history = useHistory();
     event.preventDefault();
 
-    const enteredEmail = emailInputRef.current.value;//curreent value of this email
-    const enteredPassword = passwordInputRef.current.value;//cuurent value of this password
+    //const enteredEmail = emailInputRef.current.value;//curreent value of this email
+    //const enteredAddress = addressInputRef.current.value;//cuurent value of this password
 
     // optional: Add validation
-
+    const {isLogin}=this.state
     if (isLogin) {
-      const result = await signIn('credentials', {
-        redirect: false,
-        email: enteredEmail,
-        password: enteredPassword,
+      const { email,address} =this.state;
+      const resul = await signIn('credentials', {//if is errorresult contain error msg otherwise object stored
+        redirect: false,//if login fails not want to redirect error page //bcz next go to error page make it of it make false
+        email: email,
+        address: address,
+        person: "user"
       });
-
-      if (!result.error) {
+   console.log(resul);
+      if (!resul.error) {
+        console.log("sdfa");
         // set some auth state
-        router.replace('/profile');
-      }
-    } else {
+  //      Router.push('/profile');//redirection not use window.href it will replace the url
+  //  history.push('/profile');
+  Router.replaceRoute('/profile');     
+}
+    } 
+    else {
       try {
-        const result = await createUser(enteredEmail, enteredPassword);
+        const {email} =this.state;
+        const accounts = await web3.eth.getAccounts();
+        console.log(accounts[0]);
+        console.log(email);
+        const result = await authinstance.methods.signup(email).send({
+          from : accounts[0]
+        });
         console.log(result);
+       this.setState({isLogin:true,email:'',address:''})
       } catch (error) {
         console.log(error);
       }
     }
   }
-
+   render(){
   return (
     <section className={classes.auth}>
-      <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-      <form onSubmit={submitHandler}>
+      <h1>{this.state.isLogin ? 'Login' : 'Sign Up'}</h1>
+      <form onSubmit={this.submitHandler}>
         <div className={classes.control}>
-          <label htmlFor='email'>Your Email</label>
-          <input type='email' id='email' required ref={emailInputRef} />
+          <label htmlFor='Address'>Your Address</label>
+          <input type='string' 
+          value={this.state.address}
+          onChange={event =>
+            this.setState({ address: event.target.value })}
+          required  />
         </div>
         <div className={classes.control}>
-          <label htmlFor='password'>Your Password</label>
+          <label htmlFor='email'>Your Email</label>
           <input
-            type='password'
-            id='password'
+            type='email'
+            id='email'
+            value={this.state.email}
+          onChange={event =>
+            this.setState({ email: event.target.value })}
             required
-            ref={passwordInputRef}
+          
           />
         </div>
         <div className={classes.actions}>
-          <button>{isLogin ? 'Login' : 'Create Account'}</button>
+          <button>{this.state.isLogin ? 'Login' : 'Create Account'}</button>
           <button
             type='button'
             className={classes.toggle}
-            onClick={switchAuthModeHandler}
+            onClick={this.switchAuthModeHandler}
           >
-            {isLogin ? 'Create new account' : 'Login with existing account'}
+            {this.state.isLogin ? 'Create new account' : 'Login with existing account'}
           </button>
         </div>
       </form>
     </section>
   );
+   }
 }
 
 export default AuthForm;

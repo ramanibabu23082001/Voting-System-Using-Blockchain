@@ -43,19 +43,19 @@ async function handler(req, res) {
     email: email,
     password: hashedPassword,
   });
-  try{
-  const accounts = await web3.eth.getAccounts();
-  const sign= await authinstance.methods.signup(email).send({
-    from:accounts[0]
-  });
+//   try{
+//   const accounts = await web3.eth.getAccounts();
+//   const sign= await authinstance.methods.signup(email).send({
+//     from:accounts[0]
+//   });
     
-  const mail = await authinstance.methods.login(email).call();
-  console.log(mail);
-}
-catch(err)
-{
-  console.log(err);
-}
+//   const mail = await authinstance.methods.login(email).call();
+//   console.log(mail);
+// }
+// catch(err)
+// {
+//   console.log(err);
+// }
   res.status(201).json({ message: mail });
   client.close();
 }

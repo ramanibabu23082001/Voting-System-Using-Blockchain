@@ -4,10 +4,10 @@ import classes from './user-profile.module.css';
 function UserProfile() {
   // const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
+  // useEffect(() => {//this is for froend authentication
   //   getSession().then((session) => {
   //     if (!session) {
-  //       window.location.href = '/auth';
+  //       window.location.href = '/auth';//if session no there it will go to the location
   //     } else {
   //       setIsLoading(false);
   //     }
@@ -15,7 +15,7 @@ function UserProfile() {
   // }, []);
 
   // if (isLoading) {
-  //   return <p className={classes.profile}>Loading...</p>;
+  //   return <p className={classes.profile}>Loading...</p>;//checking session while session loading show likw Loading ...
   // }
 
   async function changePasswordHandler(passwordData) {

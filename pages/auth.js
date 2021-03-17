@@ -23,9 +23,7 @@ function AuthPage() {
   }
 
   return (
-<Layout> 
-  <AuthForm />
-  </Layout>);
+  <AuthForm />);
 }
 
 export default AuthPage;

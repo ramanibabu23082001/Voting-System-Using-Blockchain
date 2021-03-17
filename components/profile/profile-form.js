@@ -15,8 +15,8 @@ function ProfileForm(props) {
     // optional: Add validation
 
     props.onChangePassword({
-      oldPassword: enteredOldPassword,
-      newPassword: enteredNewPassword
+      oldPassword: enteredOldPassword,//same name form getting api server page extracting
+      newPassword: enteredNewPassword//same name form getting api server page extracting
     });
   }
 

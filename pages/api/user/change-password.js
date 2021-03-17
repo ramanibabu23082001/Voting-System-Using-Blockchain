@@ -4,7 +4,7 @@ import { hashPassword, verifyPassword } from '../../../lib/auth';
 import { connectToDatabase } from '../../../lib/db';
 
 async function handler(req, res) {
-  if (req.method !== 'PATCH') {
+  if (req.method !== 'PATCH') {//also we able to use post or put
     return;
   }
 

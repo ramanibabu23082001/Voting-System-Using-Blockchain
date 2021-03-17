@@ -7,14 +7,14 @@ function MainNavigation() {
   const [session, loading] = useSession();//using session we know loggec or not //loading for load the session object
 
   function logoutHandler() {
-    signOut();
+    signOut();//next js will clear the coookie object session deleted
   }
 
   return (
     <header className={classes.header}>
       <Link href='/'>
         <a>
-          <div className={classes.logo}>Next Auth</div>
+          <div className={classes.logo}>Vote Blocks</div>
         </a>
       </Link>
       <nav>

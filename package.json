@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
     "start": "next start",
     "test": "mocha"
@@ -19,6 +19,7 @@
     "next-routes": "^1.4.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-router-dom": "^5.2.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "solc": "^0.4.26",
