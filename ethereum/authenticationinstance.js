@@ -3,7 +3,8 @@ import Authentication from  './build/Authentication.json'
 
 const instance = new web3.eth.Contract(
   JSON.parse(Authentication.interface),
-  '0x42ba4b6fD3594856ffB4203dD0ABd0b417B344Af'
+  //'0xE890D376332e3998c199Cf9ac164fE182DE62f68'
+   '0xedB83c3a75d4D80e60f76fF9cC3C66bD335FcBbB'
 );
 
 export default instance;

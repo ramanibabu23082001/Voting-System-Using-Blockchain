@@ -3,7 +3,7 @@ const solc =require('solc');
 const fs = require('fs-extra');//improved version of fs extra functions there 
 
 const buildPath = path.resolve(__dirname,'build');
-fs.removeSync(buildPath);//remmove all files in build folder
+//fs.removeSync(buildPath);//remmove all files in build folder
 
 const authenticationPath=path.resolve(__dirname,'contracts','authentication.sol');
 
@@ -17,7 +17,7 @@ console.log(output);
 for (let contract in output)
 {
     fs.outputJSONSync(//it will create json files for compiled contract
-     path.resolve(buildPath,contract.replace(':','')+'.json'),
+     path.resolve(buildPath,contract.replace(':','')+'.json'),//
      output[contract]
     );
 }
